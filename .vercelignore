@@ -1,0 +1,6 @@
+.git
+docs/
+scripts/
+test/
+src/
+server.js
