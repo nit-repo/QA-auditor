@@ -21,7 +21,7 @@ var url  = require('url');
 
 var PORT        = process.env.PORT || 3500;
 var PUBLIC      = path.join(__dirname, 'public');
-var REPORTS     = process.env.REPORTS_DIR || path.join(__dirname, 'reports');
+var REPORTS     = process.env.REPORTS_DIR || (process.env.VERCEL ? path.join('/tmp', 'reports') : path.join(__dirname, 'reports'));
 var API_TOKEN   = process.env.QA_API_TOKEN || null;
 var MAX_REPORTS = parseInt(process.env.MAX_REPORTS, 10) || 500;
 var MAX_BODY    = 2 * 1024 * 1024; // 2 MB — audit payloads are ~20–200 KB
@@ -29,7 +29,12 @@ var MAX_BODY    = 2 * 1024 * 1024; // 2 MB — audit payloads are ~20–200 KB
 try {
   fs.mkdirSync(REPORTS, { recursive: true });
 } catch (e) {
-  console.error('Could not create reports directory ' + REPORTS + ': ' + e.message);
+  try {
+    REPORTS = path.join('/tmp', 'reports');
+    fs.mkdirSync(REPORTS, { recursive: true });
+  } catch (e2) {
+    console.error('Could not create reports directory ' + REPORTS + ': ' + e2.message);
+  }
 }
 
 var MIME = {
@@ -186,7 +191,7 @@ function serveStatic(pathname, res) {
 
 // ─── SERVER ──────────────────────────────────────────────────────────────
 
-var server = http.createServer(async function (req, res) {
+var handleRequest = async function (req, res) {
   var parsed = url.parse(req.url, true);
   var pathname = parsed.pathname.replace(/\/+$/, '') || '/';
   var route = pathname.replace(/^\/api/, '') || '/';
@@ -270,13 +275,18 @@ var server = http.createServer(async function (req, res) {
   if (req.method !== 'GET') { res.writeHead(405); return res.end('Method not allowed'); }
 
   return serveStatic(pathname, res);
-});
+};
 
-server.listen(PORT, function () {
-  console.log('AEM QA server listening on port ' + PORT);
-  console.log('  dashboard : http://localhost:' + PORT);
-  console.log('  reports   : ' + REPORTS);
-  console.log('  auth      : ' + (API_TOKEN ? 'X-QA-Token required' : 'open (set QA_API_TOKEN to require a token)'));
-});
+var server = http.createServer(handleRequest);
+
+if (!process.env.VERCEL) {
+  server.listen(PORT, function () {
+    console.log('AEM QA server listening on port ' + PORT);
+    console.log('  dashboard : http://localhost:' + PORT);
+    console.log('  reports   : ' + REPORTS);
+    console.log('  auth      : ' + (API_TOKEN ? 'X-QA-Token required' : 'open (set QA_API_TOKEN to require a token)'));
+  });
+}
 
 module.exports = server;
+module.exports.handleRequest = handleRequest;

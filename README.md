@@ -162,6 +162,22 @@ npm run build -- --endpoint https://<app>.up.railway.app/api/report --token "$QA
 
 ---
 
+## Deploying to Vercel
+
+The repo includes zero-config Vercel support (`vercel.json` + `api/index.js`).
+
+1. Import this repository into Vercel or run `vercel` from the project root.
+2. Vercel automatically detects `buildCommand` (`npm run build`) and routes `/api/*` and `/health` to the serverless function.
+3. Build the team bookmarklet against your Vercel deployment:
+
+```bash
+npm run build -- --endpoint https://<your-app>.vercel.app/api/report --token "$QA_API_TOKEN"
+```
+
+> **Note on Storage:** On Vercel, reports are stored in `/tmp/reports`. Reports persist during warm function executions, but may reset across cold starts or redeployments. For persistent multi-region volume storage, deploy on Railway with a volume attached.
+
+---
+
 ## Project structure
 
 ```
