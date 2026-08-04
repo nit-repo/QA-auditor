@@ -1,6 +1,8 @@
 (function () {
   'use strict';
 
+  if (typeof window === 'undefined') return;
+
   var reportsData = [];
   var activeFile = null;
   var pollIntervalId = null;

@@ -1,6 +1,8 @@
 (function () {
   'use strict';
 
+  if (typeof window === 'undefined') return;
+
   var TOAST_ID = 'aem-qa-toast';
 
   // ─── ENDPOINT RESOLUTION ────────────────────────────────────────────
