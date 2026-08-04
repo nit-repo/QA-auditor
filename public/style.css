@@ -1,0 +1,510 @@
+/* AEM QA Framework — dashboard styles, KONE design system.
+ *
+ * Brand rules applied here:
+ *  · Blue + white lead. KONE Blue #1450F5 is the brand; white gives light and
+ *    space; black #141414 gives structure. Sand is the one supporting neutral.
+ *  · Inter is always sentence case and always black or white — never blue.
+ *    KONE Information is always ALL CAPS and carries the blue.
+ *  · Flat and high-key. Depth comes from colour blocks and white space, not
+ *    shadow. Sharp corners by default; 8px only on cards and controls.
+ *  · Solid backgrounds only — no gradients, no blur, no glassmorphism.
+ *  · No emoji anywhere. Iconography is inline SVG.
+ *
+ * Both faces are self-hosted: the dashboard makes zero external requests, so it
+ * renders identically on an air-gapped network and under a strict CSP.
+ */
+
+@font-face {
+  font-family: 'KONE Information';
+  src: url('assets/fonts/KONE_Information.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+
+:root {
+  /* ---- Primary ---- */
+  --kone-blue: #1450F5;
+  --blue-80: #4373F7;
+  --blue-20: #D0DCFD;
+  --white: #FFFFFF;
+  --black: #141414;
+
+  /* ---- Supporting neutral ---- */
+  --sand: #F3EEE6;
+
+  /* ---- Black tints ---- */
+  --black-60: #727272;
+  --black-40: #A1A1A1;
+  --black-20: #D0D0D0;
+  --hairline: #E6E6E6;
+
+  /* ---- UI state accents ---- */
+  --accent-red: #FF5F28;
+  --accent-orange: #FFA023;
+  --accent-green: #1ED273;
+
+  /* ---- Semantic ---- */
+  --surface-page: var(--white);
+  --surface-card: var(--white);
+  --surface-alt: var(--sand);
+  --text-primary: var(--black);
+  --text-secondary: var(--black-60);
+  --text-muted: var(--black-40);
+
+  --font-primary: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-secondary: 'KONE Information', 'Inter', system-ui, Arial, sans-serif;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px;
+  --space-4: 16px; --space-5: 24px; --space-6: 32px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--surface-page);
+  color: var(--text-primary);
+  font-family: var(--font-primary);
+  font-size: 14px;
+  line-height: 1.5;
+  height: 100vh;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app-container { display: flex; flex-direction: column; height: 100vh; }
+
+/* KONE Information role — ALL CAPS labels, the only place blue text appears. */
+.k-label {
+  font-family: var(--font-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 12px;
+  color: var(--kone-blue);
+}
+
+/* ─── Navbar: the brand moment. Blue block, white text. ─────────────── */
+.navbar {
+  background: var(--kone-blue);
+  padding: var(--space-4) var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo { display: flex; align-items: center; gap: var(--space-4); }
+
+.logo-icon { display: flex; align-items: center; }
+.logo-icon svg { height: 22px; width: auto; display: block; }
+
+.logo h1 {
+  font-size: 18px;
+  font-weight: 400;          /* Inter regular for headlines — brand rule */
+  color: var(--white);
+  letter-spacing: -0.005em;
+}
+
+.subtitle {
+  font-family: var(--font-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 11px;
+  color: var(--white);
+  opacity: 0.85;
+  margin-top: 2px;
+}
+
+/* ─── Buttons ───────────────────────────────────────────────────────── */
+.btn {
+  font-family: var(--font-primary);
+  padding: 9px 18px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background: none;
+  color: var(--text-primary);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  transition: background 140ms ease, color 140ms ease, border-color 140ms ease;
+}
+.btn:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(20, 80, 245, 0.28); }
+
+/* On-blue button: white outline on the blue navbar. */
+.btn.secondary {
+  background: transparent;
+  color: var(--white);
+  border-color: rgba(255, 255, 255, 0.55);
+}
+.btn.secondary:hover { background: rgba(255, 255, 255, 0.14); border-color: var(--white); }
+
+.btn.micro {
+  padding: 5px 10px;
+  font-size: 12px;
+  background: var(--white);
+  color: var(--text-primary);
+  border-color: var(--black-20);
+}
+.btn.micro:hover { background: var(--sand); border-color: var(--black-40); }
+
+.btn.primary-launch {
+  background: var(--kone-blue);
+  color: var(--white);
+  border: none;
+  font-weight: 600;
+  padding: 11px 22px;
+  white-space: nowrap;
+}
+.btn.primary-launch:hover { background: var(--blue-80); }
+.btn.primary-launch:active { background: #1040C5; }
+
+.btn svg { width: 16px; height: 16px; flex: none; }
+
+/* ─── Launcher band: sand block, black text ─────────────────────────── */
+.launcher-banner {
+  background: var(--surface-alt);
+  border-bottom: 1px solid var(--hairline);
+  padding: var(--space-5) var(--space-6);
+}
+
+.launcher-card { max-width: 1120px; }
+
+.launcher-text h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: var(--space-1);
+  color: var(--text-primary);
+}
+
+.launcher-text p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-4);
+  max-width: 70ch;
+}
+
+.launcher-input-row { display: flex; gap: var(--space-3); margin-bottom: var(--space-4); }
+
+.launcher-input-row input {
+  flex: 1;
+  padding: 11px 14px;
+  background: var(--white);
+  border: 1px solid var(--black-20);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-family: var(--font-primary);
+  font-size: 14px;
+}
+.launcher-input-row input::placeholder { color: var(--text-muted); }
+.launcher-input-row input:focus {
+  outline: none;
+  border-color: var(--kone-blue);
+  box-shadow: 0 0 0 3px rgba(20, 80, 245, 0.18);
+}
+
+.bookmarklet-installer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.installer-label {
+  font-family: var(--font-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 11px;
+  color: var(--kone-blue);
+}
+
+/* Draggable bookmarklet chips — square, bordered, no shadow. */
+.bookmark-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 7px 14px;
+  background: var(--white);
+  color: var(--text-primary);
+  border: 1px solid var(--kone-blue);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 13px;
+  text-decoration: none;
+  cursor: grab;
+  transition: background 140ms ease, color 140ms ease;
+}
+.bookmark-btn:hover { background: var(--kone-blue); color: var(--white); }
+.bookmark-btn svg { width: 15px; height: 15px; flex: none; }
+
+/* ─── Layout ────────────────────────────────────────────────────────── */
+.main-content { display: flex; flex: 1; overflow: hidden; }
+
+.sidebar {
+  width: 380px;
+  background: var(--white);
+  border-right: 1px solid var(--hairline);
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  padding: var(--space-4) var(--space-4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.sidebar-header h2 {
+  font-family: var(--font-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--kone-blue);
+}
+
+.badge {
+  background: var(--kone-blue);
+  color: var(--white);
+  padding: 2px 9px;
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.search-box { padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--hairline); }
+
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--white);
+  border: 1px solid var(--black-20);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-family: var(--font-primary);
+  font-size: 13px;
+}
+.search-box input:focus {
+  outline: none;
+  border-color: var(--kone-blue);
+  box-shadow: 0 0 0 3px rgba(20, 80, 245, 0.18);
+}
+
+.report-list { flex: 1; overflow-y: auto; }
+
+.report-item {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--hairline);
+  border-left: 3px solid transparent;
+  cursor: pointer;
+  transition: background 140ms ease;
+}
+.report-item:hover { background: var(--sand); }
+.report-item.active { background: var(--sand); border-left-color: var(--kone-blue); }
+
+.item-top { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-3); margin-bottom: var(--space-1); }
+
+.item-url {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* "KONE numbers" treatment — big tabular figures carrying the verdict. */
+.item-score {
+  font-size: 20px;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  flex: none;
+}
+.item-score.p { color: var(--accent-green); }
+.item-score.w { color: var(--accent-orange); }
+.item-score.f { color: var(--accent-red); }
+
+.item-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+.item-meta > span:last-child { margin-left: auto; font-variant-numeric: tabular-nums; }
+
+.status-chip {
+  font-family: var(--font-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 2px 7px;
+  border-radius: var(--radius-sm);
+  font-size: 10px;
+  border: 1px solid transparent;
+}
+.status-chip.BLOCK,
+.status-chip.FAIL { background: rgba(255, 95, 40, 0.14); color: #B23A11; border-color: rgba(255, 95, 40, 0.4); }
+.status-chip.PASS { background: rgba(30, 210, 115, 0.16); color: #0B7A42; border-color: rgba(30, 210, 115, 0.45); }
+.status-chip.PASS_WITH_WARNINGS,
+.status-chip.CONDITIONAL { background: rgba(255, 160, 35, 0.16); color: #96590A; border-color: rgba(255, 160, 35, 0.45); }
+
+/* Audit-mode chip: marks a quick scan so its blocker count is never read as a
+   full-audit score. */
+.mode-chip {
+  font-family: var(--font-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--blue-20);
+  color: #0B3AB8;
+  border-radius: var(--radius-sm);
+  padding: 2px 7px;
+  font-size: 10px;
+}
+
+/* ─── Detail pane ───────────────────────────────────────────────────── */
+.report-detail {
+  flex: 1;
+  background: var(--surface-page);
+  overflow-y: auto;
+  padding: var(--space-6);
+}
+
+.empty-state {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  color: var(--text-secondary);
+  text-align: left;
+  max-width: 52ch;
+}
+.empty-icon { color: var(--kone-blue); margin-bottom: var(--space-4); }
+.empty-icon svg { width: 40px; height: 40px; }
+.empty-state h3 { font-size: 22px; font-weight: 600; color: var(--text-primary); margin-bottom: var(--space-2); }
+
+.detail-header {
+  background: var(--white);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  margin-bottom: var(--space-5);
+}
+
+.detail-title-row { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-4); margin-bottom: var(--space-3); }
+.detail-url { font-size: 18px; font-weight: 600; color: var(--text-primary); word-break: break-all; }
+.detail-timestamp {
+  font-family: var(--font-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: var(--space-1);
+}
+
+.score-overview { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--space-3); margin-top: var(--space-4); }
+
+.score-box {
+  background: var(--sand);
+  border: none;
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+}
+.score-box-title {
+  font-family: var(--font-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 10px;
+  color: var(--kone-blue);
+  margin-bottom: var(--space-1);
+}
+.score-box-value { font-size: 26px; font-weight: 400; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+
+/* ─── Check results ─────────────────────────────────────────────────── */
+.checks-grid { display: flex; flex-direction: column; gap: var(--space-4); }
+
+.pillar-section {
+  background: var(--white);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.pillar-title {
+  padding: var(--space-3) var(--space-4);
+  background: var(--sand);
+  font-family: var(--font-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--kone-blue);
+  border-bottom: 1px solid var(--hairline);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Status is carried by a 3px colour rule on the leading edge — a colour block,
+   not a shadow or a tinted card. */
+.check-row {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--hairline);
+  border-left: 3px solid transparent;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+.check-row:last-child { border-bottom: none; }
+.check-row.pass { border-left-color: var(--accent-green); }
+.check-row.warn { border-left-color: var(--accent-orange); background: rgba(255, 160, 35, 0.05); }
+.check-row.fail { border-left-color: var(--accent-red); background: rgba(255, 95, 40, 0.06); }
+.check-row.info { border-left-color: var(--black-20); }
+
+.check-icon { flex: none; width: 16px; height: 16px; margin-top: 2px; }
+.check-icon svg { width: 16px; height: 16px; display: block; }
+.check-row.pass .check-icon { color: var(--accent-green); }
+.check-row.warn .check-icon { color: var(--accent-orange); }
+.check-row.fail .check-icon { color: var(--accent-red); }
+.check-row.info .check-icon { color: var(--black-40); }
+
+.check-content { flex: 1; min-width: 0; }
+.check-header { font-weight: 600; font-size: 13px; color: var(--text-primary); }
+.check-detail { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+
+.p-tag {
+  font-family: var(--font-secondary);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  padding: 1px 5px;
+  border-radius: var(--radius-sm);
+  margin-right: var(--space-2);
+  border: 1px solid;
+}
+.p-tag.P1 { color: #B23A11; border-color: rgba(255, 95, 40, 0.45); background: rgba(255, 95, 40, 0.12); }
+.p-tag.P2 { color: #96590A; border-color: rgba(255, 160, 35, 0.45); background: rgba(255, 160, 35, 0.12); }
+.p-tag.P3 { color: var(--text-secondary); border-color: var(--black-20); background: var(--sand); }
+.p-tag.P4 { color: var(--text-muted); border-color: var(--hairline); background: var(--white); }
+
+.items-box {
+  margin-top: var(--space-2);
+  background: var(--sand);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+}
+.item-line { font-size: 11px; color: var(--text-secondary); margin-bottom: 2px; word-break: break-all; }
+
+.loading { padding: var(--space-5); color: var(--text-secondary); font-size: 13px; }
+
+.nav-actions { display: flex; align-items: center; gap: var(--space-3); }
+
+/* app.js renders this class name — keep it in sync with the markup. */
+.score-box-val { font-size: 26px; font-weight: 400; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }

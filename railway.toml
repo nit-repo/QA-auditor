@@ -1,0 +1,20 @@
+# Railway deployment manifest.
+#
+# The builder is deliberately not pinned, so Railway uses whatever its current
+# default is (Railpack at time of writing). Node is detected from package.json;
+# the project has zero npm dependencies, so install is a no-op and the build
+# step only compiles the bookmarklet payloads.
+#
+# Persistence: attach a Railway volume mounted at /data and set
+# REPORTS_DIR=/data/reports, otherwise reports live in the container filesystem
+# and are lost on every redeploy.
+
+[build]
+buildCommand = "npm run build"
+
+[deploy]
+startCommand = "npm start"
+healthcheckPath = "/health"
+healthcheckTimeout = 30
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 10

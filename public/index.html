@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AEM QA Framework</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Favicon: the KONE mark's four squares, in KONE Blue. Inline so the page
+       still makes zero external requests. No emoji — KONE never uses them. -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><g fill='%231450F5'><rect x='1' y='6' width='6' height='20'/><rect x='9' y='6' width='6' height='20'/><rect x='17' y='6' width='6' height='20'/><rect x='25' y='6' width='6' height='20'/></g></svg>">
+  <!-- Both typefaces are self-hosted (see style.css): no webfont CDN, so the
+       dashboard renders identically offline and under a strict CSP. -->
+</head>
+
+<body>
+  <div class="app-container">
+    <!-- Brand moment: KONE Blue block, white mark, white text. -->
+    <header class="navbar">
+      <div class="logo">
+        <span class="logo-icon" aria-hidden="true">
+          <svg viewBox="0 0 1193.36 461.76" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="KONE">
+            <rect x="0" y="0" width="269.36" height="461.76" fill="#FFFFFF"></rect>
+            <rect x="307.84" y="0" width="269.36" height="461.76" fill="#FFFFFF"></rect>
+            <rect x="615.67" y="0" width="269.36" height="461.76" fill="#FFFFFF"></rect>
+            <rect x="924.01" y="0" width="269.36" height="461.76" fill="#FFFFFF"></rect>
+            <path d="M48.22 132.07 100.91 132.07 100.91 218.29 166.14 132.07 228.2 132.07 156.18 225.09 233.14 329.69 168.65 329.69 100.91 236.06 100.91 329.69 48.22 329.69 48.22 132.07Z" fill="#1450F5"></path>
+            <path d="M662.48 132.07 708.51 132.07 789.32 239.42 789.32 132.07 838.22 132.07 838.22 329.69 794.28 329.69 711.22 214.01 711.22 329.69 662.48 329.69 662.48 132.07Z" fill="#1450F5"></path>
+            <path d="M442.5 127.72C385.71 127.72 340.03 169.65 340.03 230.84 340.03 292.03 385.71 334.04 442.5 334.04 499.29 334.04 544.99 292.02 544.99 230.84 544.99 169.66 499.31 127.72 442.5 127.72ZM442.5 287.4C414.42 287.4 392.72 264.39 392.72 230.85 392.72 197.31 414.41 174.3 442.5 174.3 470.59 174.3 492.27 197.39 492.27 230.85 492.27 264.31 470.5 287.4 442.5 287.4Z" fill="#1450F5"></path>
+            <path d="M1133.44 175.62 1036 175.62 1036 209.03 1117.47 209.03 1117.45 251.34 1036 251.34 1036 284.85 1133.44 284.85 1133.44 329.71 983.93 329.71 983.93 132.05 1133.44 132.05 1133.44 175.62Z" fill="#1450F5"></path>
+          </svg>
+        </span>
+        <div>
+          <h1>AEM QA Framework</h1>
+          <p class="subtitle">Dedicated to People Flow</p>
+        </div>
+      </div>
+      <div class="nav-actions">
+        <button id="refresh-btn" class="btn secondary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5"/></svg>
+          Refresh reports
+        </button>
+      </div>
+    </header>
+
+    <!-- Supporting sand block. Secondary colour supports, never dominates. -->
+    <section class="launcher-banner">
+      <div class="launcher-card">
+        <div class="launcher-text">
+          <h2>Audit any AEM page or website</h2>
+          <p>Paste a live site URL or an AEM preview link. Opening it from here lets the audited
+             page report straight back to this dashboard.</p>
+        </div>
+
+        <div class="launcher-input-row">
+          <input type="url" id="target-url-input"
+            placeholder="https://www.kone.com or an AEM preview link">
+          <button id="launch-audit-btn" class="btn primary-launch">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 5h5v5M19 5l-8 8M12 5H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></svg>
+            Open and audit
+          </button>
+        </div>
+
+        <div class="bookmarklet-installer">
+          <span class="installer-label">Drag both to your bookmarks bar</span>
+
+          <a id="drag-bookmarklet-link" class="bookmark-btn" href="#"
+             title="Full audit — all 49 checks, every link verified">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM20 20l-4-4"/></svg>
+            AEM QA — Full
+          </a>
+          <button id="copy-bookmark-btn" class="btn micro">Copy</button>
+
+          <a id="drag-bookmarklet-quick" class="bookmark-btn" href="#"
+             title="Quick scan — the 15 P1 blockers, links sampled">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4a8 8 0 1 0 0 16 8 8 0 0 0 0-16zM12 8v4l3 2"/></svg>
+            AEM QA — Quick
+          </a>
+          <button id="copy-bookmark-quick-btn" class="btn micro">Copy</button>
+        </div>
+      </div>
+    </section>
+
+    <main class="main-content">
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <h2>Audit reports</h2>
+          <span class="badge" id="report-count">0</span>
+        </div>
+        <div class="search-box">
+          <input type="text" id="search-input" placeholder="Filter by URL or status">
+        </div>
+        <div class="report-list" id="report-list">
+          <div class="loading">Loading reports…</div>
+        </div>
+      </aside>
+
+      <section class="report-detail" id="report-detail">
+        <div class="empty-state">
+          <div class="empty-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+          </div>
+          <h3>Select an audit report</h3>
+          <p>Choose a report from the list to inspect pillar scores, go-live blockers and the
+             full set of check findings.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
